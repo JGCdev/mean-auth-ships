@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+
+  mongo-db:
+    image: mongo
+    volumes:
+      - ./mongo:/data/db
+    ports:
+      - '27017:27017'
+
+  server:
+    build: node
+    image: jgimenez/mean_back
+    ports:
+      - '8000:8000'
+    links:
+      - mongo-db
+
+  client:
+    build: angular
+    image: jgimenez/mean_front
+    ports:
+      - '80:80'

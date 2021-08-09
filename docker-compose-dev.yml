@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+
+  mongo-db:
+    image: mongo
+    volumes:
+      - ./mongo:/data/db
+    ports:
+      - '27017:27017'
+
+  server:
+    build: node
+    image: jgimenez/mean_back
+    ports:
+      - '8000:8000'
+    links:
+      - mongo-db
+
+  client:
+    build: 
+      context: ./angular
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./angular:/usr/src/app/app-ui
+      - /usr/src/app/app-ui/node_modules
+    image: jgimenez/mean_front
+    ports:
+      - '4200:4200'
+      - '49153:49153'
