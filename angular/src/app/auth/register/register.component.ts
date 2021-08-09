@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-
-// JSON
-import usersList from 'src/assets/json/users.json';
+import { User } from 'src/app/core/models/user';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -14,10 +13,12 @@ export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
   dataLoading: boolean = false;
+  userToBeRegistered: User;
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private as: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -26,19 +27,35 @@ export class RegisterComponent implements OnInit {
       last_name: [ '', [Validators.required, Validators.minLength(3)]],
       username: [ '', [Validators.required, Validators.minLength(3)]],
       email: [ '', [Validators.required, Validators.minLength(6)]],
-
+      password: [ '', [Validators.required, Validators.minLength(6)]],
     })
   }
 
   registerUser() {
     if (this.registerForm.invalid) { return }
-    // TODO : Falta integrar el servicio para registrar al usuario
-    // JSON simulando usuarios
-    var userLogin = this.registerForm.value;
-    usersList.push(userLogin)
-    console.log('User Register -->', usersList)
-    this.router.navigate(['/principal/ships'])
 
+    this.userToBeRegistered = {
+      firstname: this.registerForm.value.first_name,
+      lastname:this.registerForm.value.last_name,
+      email:this.registerForm.value.email,
+      username:this.registerForm.value.username,
+      password: this.registerForm.value.password,
+      token: ''
+    };
+
+    this.as.register(this.userToBeRegistered).subscribe(
+      (res: any) => {
+        localStorage.setItem('access_token', res.token)
+        this.as.userChange$.next({
+            loggedIn: true
+        });
+        this.router.navigate([''])
+      },
+      (err: any) => {
+        
+      }
+    );
+    
   }
 
 }
