@@ -14,6 +14,7 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   dataLoading: boolean = false;
   userToBeRegistered: User;
+  error: string;
 
   constructor(
     private fb: FormBuilder,
@@ -52,7 +53,7 @@ export class RegisterComponent implements OnInit {
         this.router.navigate([''])
       },
       (err: any) => {
-        
+        this.error = err;
       }
     );
     

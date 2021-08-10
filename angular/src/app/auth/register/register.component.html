@@ -1,5 +1,6 @@
 <div class="col-md-4 col-md-offset-4 container mt-5">
     <h2 class="text-center">Registrar</h2>
+    <p *ngIf="error">{{error}}</p>
     <form [formGroup]="registerForm" (ngSubmit)="registerUser()">
         <div class="form-group mt-5">
             <!-- <label for="username">First name</label> -->

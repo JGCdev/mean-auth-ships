@@ -18,12 +18,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.as.userChange$.subscribe(res => {
-      console.log('RESS::::', res);
       if(res.loggedIn==true) {
         this.showMenu = true;
       }
     });
-
   }
 
   doLogout() {
