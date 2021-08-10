@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -30,11 +29,10 @@ mongoose.set('useCreateIndex', true);
 
 // Express settings
 const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
-app.use(cors());
+
+app.use(cors())
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Serve static resources
 // app.use('/public', express.static('public'));
@@ -43,13 +41,14 @@ app.use('/api/auth', authRoutes)
 app.use('/api/mail', mailRoutes)
 
 // Define PORT
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 8000;
 const server = app.listen(port, () => {
     console.log('Connected to port ' + port)
 })
 
 // Express error handling
 app.use((req, res, next) => {
+    
     setImmediate(() => {
         next(new Error('Something went wrong'));
     });

@@ -1,4 +1,3 @@
-// routes/auth.routes.js
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -11,6 +10,16 @@ const { check, validationResult } = require('express-validator');
 router.post("/register-user",
     [
         check('username')
+            .not()
+            .isEmpty()
+            .isLength({ min: 3 })
+            .withMessage('Name must be atleast 3 characters long'),
+        check('firstname')
+            .not()
+            .isEmpty()
+            .isLength({ min: 3 })
+            .withMessage('Name must be atleast 3 characters long'),
+        check('lastname')
             .not()
             .isEmpty()
             .isLength({ min: 3 })
@@ -50,10 +59,10 @@ router.post("/register-user",
 
 
 // Sign-in
-router.post("/signin", (req, res, next) => {
+router.post("/login", (req, res, next) => {
     let getUser;
     userSchema.findOne({
-        email: req.body.username
+        username: req.body.username
     }).then(user => {
         if (!user) {
             return res.status(401).json({
@@ -81,7 +90,7 @@ router.post("/signin", (req, res, next) => {
                     email: getUser.email,
                     userId: getUser._id
                 }, 
-                process.env.SECRETSALT, 
+                'mys4LT', 
                 {
                     expiresIn: "1h"
                 }
