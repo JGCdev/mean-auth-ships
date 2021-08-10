@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 declare var $: any;
 
 
@@ -10,6 +10,7 @@ declare var $: any;
 export class ShipsDetailsComponent implements OnInit {
 
   @Input() dataList: any;
+  @Output() pageChangedEmitter: EventEmitter<number> = new EventEmitter<number>();
   config: any;
   shipId: string = '';
   url: string = '';
@@ -23,20 +24,28 @@ export class ShipsDetailsComponent implements OnInit {
   
   ngOnInit(): void {
       this.config = {
-        itemsPerPage: 5,
+        itemsPerPage: 9,
         currentPage: 1,
         totalItems: this.dataList.length
       };
   }
 
+  ngOnChanges() {
+    if (this.dataList && this.config) {
+      this.config.totalItems = this.dataList.count || 0;
+    }
+  }
+
   getStarshipId(url) {
-    this.shipId = url.slice(0, -1)
-    const urlImage = `${this.shipId}.jpg`
-    return urlImage !== "";
+    let urlWithoutSlash = url.split("/");
+    this.shipId = urlWithoutSlash[urlWithoutSlash.length-2]
+
+    return  `https://starwars-visualguide.com/assets/img/starships/${this.shipId}.jpg`
   }
 
   pageChanged(event){
     this.config.currentPage = event;
+    this.pageChangedEmitter.emit(event);
   }
 
   openDetails(details) {

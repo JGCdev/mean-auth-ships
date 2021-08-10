@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { ShipsService } from 'src/app/core/services/ships.service';
 
 @Component({
@@ -13,9 +14,19 @@ export class ShipsComponent implements OnInit {
   constructor( private shipsService: ShipsService) {}
 
   ngOnInit(): void {
-    this.shipsService.getShips().subscribe((ships) => {
+    this.shipsService.getShipsByPage().subscribe((ships) => {
       this.dataList = ships;
       console.log('SHIPS -->', this.dataList.results)
     })
+  }
+
+  getShipsPage(page = 1) {
+    this.shipsService.getShipsByPage(page)
+      .pipe(
+        take(1)
+      )
+      .subscribe((dataListNew) => {
+        this.dataList = dataListNew;
+      });
   }
 }

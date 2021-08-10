@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators'
+import { map, take } from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +19,14 @@ export class ShipsService {
   
   constructor( private http: HttpClient ) {}
 
-  getShips(): Observable<any>{
-    return this.http.get(this.url).pipe( 
-      map( data => { return data })
-      );
+  getShipsByPage(page = 1): Observable<any> {
+    let params = new HttpParams();
+
+    if (page !== 1) {
+      params = params.set('page', page.toString());
+    }
+
+    return this.http.get(this.url, { params }).pipe( take(1) );
   }
+
 }
