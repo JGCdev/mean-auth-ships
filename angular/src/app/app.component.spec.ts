@@ -1,16 +1,15 @@
+import { HttpClientModule } from '@angular/common/http';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './shared/layout/header/header.component';
+
 
 describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent
-      ],
+      imports: [HttpClientModule, RouterTestingModule],
+      declarations: [ AppComponent, HeaderComponent]
     }).compileComponents();
   }));
 
@@ -20,10 +19,10 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'massimo-dutti'`, () => {
+  it(`should have as title 'MEAN Ships App'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('massimo-dutti');
+    expect(app.title).toEqual('MEAN Ships App');
   });
 
 
