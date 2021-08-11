@@ -10,7 +10,7 @@ import { User } from '../models/user';
 })
 export class AuthService {
   
-  endpoint = 'http://server:8000/api/auth';
+  endpoint = 'http://localhost:8000/api/auth';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   userChange$ = new BehaviorSubject({loggedIn: null});
 
@@ -32,7 +32,7 @@ export class AuthService {
     return this.http.post(`${this.endpoint}/login`, userAuth);
   }
 
-  logout() {
+  logout(): void {
     const removeToken = localStorage.removeItem('access_token');
     if (removeToken == null) {
       this.router.navigate(['/auth']);

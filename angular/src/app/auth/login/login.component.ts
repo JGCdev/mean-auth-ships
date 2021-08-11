@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
       password: [ '', [Validators.required, Validators.minLength(6)]]
     })
   }
-  loginUser() {
+  loginUser(): void {
     if (this.loginForm.invalid) { return }
 
     this.authCredentials = {

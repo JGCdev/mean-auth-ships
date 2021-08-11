@@ -32,7 +32,7 @@ export class RegisterComponent implements OnInit {
     })
   }
 
-  registerUser() {
+  registerUser(): void {
     if (this.registerForm.invalid) { return }
 
     this.userToBeRegistered = {

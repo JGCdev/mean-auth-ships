@@ -35,7 +35,6 @@ describe('LoginComponent', () => {
     expect(component.loginForm).toBeDefined();
     expect(component.loginForm.invalid).toBeTruthy();
     expect(component.error).toBeUndefined();
-    expect(component.loginForm).toBeUndefined();
   });
 
 });

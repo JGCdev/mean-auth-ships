@@ -17,6 +17,7 @@ describe('AuthService', () => {
       ],
     });
     service = TestBed.inject(AuthService);
+    service.endpoint = 'http://server:8000/api/auth';
   });
 
   it('should be created', () => {
