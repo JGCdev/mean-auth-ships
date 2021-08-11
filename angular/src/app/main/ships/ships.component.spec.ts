@@ -4,11 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ShipsComponent } from './ships.component';
 
 import { BehaviorSubject } from 'rxjs';
-import { ShipsService } from 'src/app/core/services/ships.service';
 import { AppModule } from 'src/app/app.module';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { ɵROUTER_PROVIDERS } from '@angular/router';
-import { APP_BASE_HREF } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 
